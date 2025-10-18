@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect } from "react";
 
-export default function Tela_inicial({navigation}) {
+export default function Tela_inicial({navigation}: any) {
   const [analise, setanalise] = useState(1);
   const [titulo, settitulo] = useState("");
   const [texto, settexto] = useState("");
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   Botao: {
-    width: "40%",
+    width: "80%",
     height: "10%",
     alignItems: "center",
     justifyContent: "center",
@@ -109,6 +109,6 @@ const styles = StyleSheet.create({
   },
   botao_texto: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: 25,
   },
 });
