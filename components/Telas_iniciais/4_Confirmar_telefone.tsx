@@ -1,19 +1,28 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Platform } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import axios from "axios";
+
+const { width, height } = Dimensions.get("window");
+const scale = (size: number) => (width / 375) * size;
 
 export default function Confirmar_telefone({ navigation, route }: any){
     const {nome_completo, data_de_nascimento, genero, telefone, codigo} = route.params;
 
     const [confimacao, setconfirmacao] = useState("");
     const adicionarCaractere = (caractere: string) => {
-        if (confimacao.length < 6) {
-            setconfirmacao(confimacao + caractere);
+        const novoCodigo = confimacao + caractere;
+
+        if (novoCodigo.length <= 6) {
+            setconfirmacao(novoCodigo);
+        }
+
+        if (novoCodigo.length === 6) {
+            if (novoCodigo === codigo) {
+            navigation.navigate("Finalizar_Cadastro");
+            }
         }
     };
-
     
 
     return(
@@ -25,7 +34,7 @@ export default function Confirmar_telefone({ navigation, route }: any){
                     </View>
 
                     {/* Corpo */}
-                    <View style={styles.corpo}>
+                    <View style={styles.Corpo}>
                         <Text style={styles.Texto}>Voce recebera um codigo de verificao no numero:{'\n'}9...{'\n'}.Digite este codigo a baixo para confirmar.</Text>
                         <View style={styles.Blocos}>
                             <Text style={styles.Bloco}>{confimacao[0]}</Text>
@@ -98,65 +107,64 @@ const styles = StyleSheet.create({
     backgroundColor: "#730FB0",
   },
   Cabecario: {
-    width: "100%",
-    height: "15%",
-    backgroundColor: "#730FB0",
+    flex: 0.18,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#730FB0",
   },
   Titulo: {
     color: "#fff",
-    fontSize: 35,
+    fontSize: scale(32),
     fontWeight: "bold",
-    alignItems: "center",
+    textAlign: "center",
   },
-  corpo: {
-    width: "100%",
-    height: "85%",
+  Corpo: {
+    flex: 0.82,
     backgroundColor: "#fff",
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+    borderTopLeftRadius: scale(25),
+    borderTopRightRadius: scale(25),
+    paddingHorizontal: scale(20),
+    paddingVertical: scale(10),
   },
   Texto: {
     textAlign: "center",
-    fontSize: 15,
+    fontSize: scale(13),
     color: "#730FB0",
-    marginTop: 5,
+    marginTop: scale(5),
   },
   Blocos: {
     flexDirection: "row",
-    marginVertical: 5,
+    marginVertical: scale(5),
     justifyContent: "center"
   },
   Bloco:{
-    width: 40,
-    height: 40,
+    width: scale(35),
+    height: scale(35),
     backgroundColor: "#AAAAAA",
-    marginHorizontal: 5,
-    borderRadius: 15,
+    marginHorizontal: scale(5),
+    borderRadius: scale(15),
     textAlign: "center",
-    padding: 10
+    padding: scale(10)
   },
   Teclado: {
     alignSelf: "center",
-    marginTop: 0
   },
   Conjunto_tecla: {
     flexDirection: "row",
-    marginVertical: 20,
+    marginVertical: scale(10),
   },
   Tecla: {
-    width: 80,
-    height: 80,
+    width: scale(70),
+    height: scale(70),
     backgroundColor: "#730FB0",
-    borderRadius: 15,
+    borderRadius: scale(15),
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 20,
+    marginHorizontal: scale(15),
   },
   numero: {
     color: "#fff",
-    fontSize: 25,
+    fontSize: scale(25),
     fontWeight: "bold",
     
   }
