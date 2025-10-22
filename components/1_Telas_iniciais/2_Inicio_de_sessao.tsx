@@ -13,23 +13,29 @@ export default function Inicio_de_sessao({ navigation }: any) {
 
   // login
   const [telefone, settelefone] = useState("");
-  const [password, setPassword] = useState("");
+  const [senha, setsenha] = useState("");
   const [informar, setinformar] = useState("");
 
   const Iniciar_sessao = async () => {
     try {
-      const response = await axios.get("https://mindcare-api.onrender.com/MindCare/API/usuario");
-      const usuarios = response.data;
-      const usuario = usuarios.find(
-        (u: { telefone: string; password: string }) =>
-          u.telefone === telefone && u.password === password
+      const response1 = await axios.get("https://mindcare-api.onrender.com/MindCare/API/credencia");
+      const credencias = response1.data;
+      const credencia = credencias.find(
+          (u: { telefone: string; senha: string }) =>
+          u.telefone === telefone && u.senha === senha
       );
 
-      if (telefone === "" || password === "") {
+      if (telefone === "" || senha === "") {
         setinformar("Preencha todos os campos, por favor");
-      } else if (!usuario) {
+      } else if (!credencia) {
         setinformar("Telefone ou senha incorretos.");
+      } else if(credencia)
+      {
+        const usuario = await axios.get(`https://mindcare-api.onrender.com/MindCare/API/usuario/${credencia.id}`);
+        //codigo para trocar de tela
       }
+
+      
     } catch (error) {
       console.error("Erro ao obter usuários:", error);
       alert("Erro de conexão. Tente novamente.");
@@ -61,8 +67,8 @@ export default function Inicio_de_sessao({ navigation }: any) {
               style={styles.CaixaSenha}
               placeholder="***..."
               secureTextEntry={mostra}
-              value={password}
-              onChangeText={setPassword}
+              value={senha}
+              onChangeText={setsenha}
             />
             <TouchableOpacity style={styles.Mostrar} onPress={() => setmostra(!mostra)}>
               <Ionicons name={olho} size={scale(24)} color="#000" />

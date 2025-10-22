@@ -2,11 +2,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //importacao das telas
-import Tela_inicial from '@/components/Telas_iniciais/1_Tela_inicial';
-import Inicio_de_sessao from '@/components/Telas_iniciais/2_Inicio_de_sessao';
-import Criar_conta from '@/components/Telas_iniciais/3_Criar_conta';
-import Confirmar_telefone from '@/components/Telas_iniciais/4_Confirmar_telefone';
-import Finalizar_Cadastro from '@/components/Telas_iniciais/5_Finilizar_cadastro';
+import Tela_inicial from '@/components/1_Telas_iniciais/1_Tela_inicial';
+import Inicio_de_sessao from '@/components/1_Telas_iniciais/2_Inicio_de_sessao';
+import Criar_conta from '@/components/1_Telas_iniciais/3_Criar_conta';
+import Confirmar_telefone from '@/components/1_Telas_iniciais/4_Confirmar_telefone';
+import Finalizar_Cadastro from '@/components/1_Telas_iniciais/5_Finilizar_cadastro';
 
 const Stack = createNativeStackNavigator();
 export default function HomeScreen() {

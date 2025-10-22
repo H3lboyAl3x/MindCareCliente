@@ -19,7 +19,12 @@ export default function Confirmar_telefone({ navigation, route }: any){
 
         if (novoCodigo.length === 6) {
             if (novoCodigo === codigo) {
-            navigation.navigate("Finalizar_Cadastro");
+                navigation.navigate("Finalizar_Cadastro", {
+                    nome_completo,
+                    data_de_nascimento,
+                    genero,
+                    telefone,
+                });
             }
         }
     };
@@ -90,9 +95,7 @@ export default function Confirmar_telefone({ navigation, route }: any){
                                 <TouchableOpacity style={styles.Tecla} onPress={() => adicionarCaractere("0")}>
                                     <Text style={styles.numero}>0</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.Tecla} onPress={() => alert(confimacao)}>
-                                    <Ionicons name="arrow-forward-outline" size={30} color="#fff" />
-                                </TouchableOpacity>
+                                <View style={[styles.Tecla, {backgroundColor: 'transparent'}]}/>
                             </View>
                         </View>
                     </View>
