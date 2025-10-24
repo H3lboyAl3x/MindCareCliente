@@ -45,7 +45,6 @@ export default function Finalizar_Cadastro({ navigation, route }: any){
                         telefone: telefone,
                         senha
                     });
-                    alert("entrou")
                 }else {
                     setinformar("Ja existe um usuario com esses dados! por favor, se esqueceu a senha realiza a alteracao da mesma ou entre em contacto com o apoio ao cliente.")
                 }

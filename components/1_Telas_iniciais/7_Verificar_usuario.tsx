@@ -6,8 +6,8 @@ import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 const scale = (size: number) => (width / 375) * size;
 
-export default function Confirmar_telefone({ navigation, route }: any){
-    const {nome_completo, data_de_nascimento, genero, telefone, codigo} = route.params;
+export default function Verificar_usuario({ navigation, route }: any){
+    const {codigo, telefone} = route.params;
 
     const [confimacao, setconfirmacao] = useState("");
     const adicionarCaractere = (caractere: string) => {
@@ -19,12 +19,7 @@ export default function Confirmar_telefone({ navigation, route }: any){
 
         if (novoCodigo.length === 6) {
             if (novoCodigo === codigo) {
-                navigation.navigate("Finalizar_Cadastro", {
-                    nome_completo,
-                    data_de_nascimento,
-                    genero,
-                    telefone,
-                });
+                alert(codigo);
             }
         }
     };

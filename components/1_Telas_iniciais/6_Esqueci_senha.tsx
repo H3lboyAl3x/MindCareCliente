@@ -1,19 +1,14 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
 const scale = (size: number) => (width / 375) * size;
 
-export default function Inicio_de_sessao({ navigation }: any) {
-  const [mostra, setmostra] = useState(true);
-  const olho: keyof typeof Ionicons.glyphMap = mostra ? "eye-off-outline" : "eye-outline";
+export default function Esqueci_senha({ navigation }: any) {
 
-  // login
   const [telefone, settelefone] = useState("");
-  const [senha, setsenha] = useState("");
   const [informar, setinformar] = useState("");
 
   const Iniciar_sessao = async () => {
@@ -22,19 +17,37 @@ export default function Inicio_de_sessao({ navigation }: any) {
       const credencias = response1.data;
       const credencia = credencias.find(
           (u: { telefone: string; senha: string }) =>
-          u.telefone === telefone && u.senha === senha
+          u.telefone === telefone
       );
 
-      if (telefone === "" || senha === "") {
+      const gerarcodigo = (tamanho = 6) => {
+        const caracteres = "123456789";
+        let codigo = "";
+        for (let i = 0; i < tamanho; i++) {
+            const indice = Math.floor(Math.random() * caracteres.length);
+            codigo += caracteres.charAt(indice);
+        }
+        return codigo;
+      };
+      const codigo = gerarcodigo();
+
+      if (telefone === "") {
         setinformar("Preencha todos os campos, por favor");
       } else if (!credencia) {
-        setinformar("Telefone ou senha incorretos.");
-      } else if(credencia)
-      {
+        setinformar("Nenhum usuario resistrado com esse Telefone.");
+      } else if(credencia){
         const usuario = await axios.get(`https://mindcare-api.onrender.com/MindCare/API/usuario/${credencia.id}`);
+        const telefone_completo = `+244${telefone}`
+        await axios.post(`https://mindcare-api.onrender.com/MindCare/API/enviar-sms`, {
+            nome: usuario.data.nome,
+            telefone: telefone_completo,
+            codigo,
+        });
+        navigation.navigate("Verificar_usuario",{
+          codigo,
+          telefone: credencia.telefone,
+        })
       }
-
-      
     } catch (error) {
       console.error("Erro ao obter usuários:", error);
       alert("Erro de conexão. Tente novamente.");
@@ -46,11 +59,12 @@ export default function Inicio_de_sessao({ navigation }: any) {
       <SafeAreaView style={styles.Container} edges={["top"]}>
         {/* Cabeçalho */}
         <View style={styles.Cabecario}>
-          <Text style={styles.Titulo}>Iniciar Sessão</Text>
+          <Text style={styles.Titulo}>Esqueceu a senha?</Text>
         </View>
 
         {/* Corpo */}
         <View style={styles.Corpo}>
+        <Text style={[styles.Texto, {fontSize: scale(13), textAlign: 'center', marginBottom: scale(20)}]}>Digite o numero de Telefone para confirmar usuario</Text>
           <Text style={styles.Texto}>Telefone</Text>
           <TextInput
             style={styles.Caixa_de_texto}
@@ -60,35 +74,12 @@ export default function Inicio_de_sessao({ navigation }: any) {
             onChangeText={settelefone}
           />
 
-          <Text style={styles.Texto}>Senha</Text>
-          <View style={styles.SenhaContainer}>
-            <TextInput
-              style={styles.CaixaSenha}
-              placeholder="***..."
-              secureTextEntry={mostra}
-              value={senha}
-              onChangeText={setsenha}
-            />
-            <TouchableOpacity style={styles.Mostrar} onPress={() => setmostra(!mostra)}>
-              <Ionicons name={olho} size={scale(24)} color="#000" />
-            </TouchableOpacity>
-          </View>
-
           <Text style={styles.Informar}>{informar}</Text>
 
           {/* Rodapé */}
           <TouchableOpacity style={styles.Botao} onPress={() => Iniciar_sessao()}>
-            <Text style={styles.BotaoTexto}>Iniciar</Text>
+            <Text style={styles.BotaoTexto}>Buscar</Text>
           </TouchableOpacity>
-
-          <Text style={styles.Aviso} onPress={() => navigation.navigate("Esqueci_senha")}>Esqueci a senha!</Text>
-
-          <Text
-            style={styles.CriarConta}
-            onPress={() => navigation.navigate("Criar_conta")}
-          >
-            Não tem uma conta? Criar conta.
-          </Text>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -135,25 +126,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(15),
     marginBottom: scale(10),
   },
-  SenhaContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#D9D9D9",
-    borderRadius: scale(10),
-    width: "100%",
-    marginBottom: scale(10),
-  },
-  CaixaSenha: {
-    flex: 1,
-    fontSize: scale(18),
-    paddingVertical: scale(12),
-    paddingHorizontal: scale(15),
-  },
-  Mostrar: {
-    padding: scale(10),
-    justifyContent: "center",
-    alignItems: "center",
-  },
   Informar: {
     marginLeft: scale(5),
     color: "red",
@@ -173,17 +145,5 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: scale(20),
     fontWeight: "600",
-  },
-  Aviso: {
-    fontSize: scale(15),
-    color: "#730FB0",
-    marginTop: scale(10),
-  },
-  CriarConta: {
-    fontSize: scale(15),
-    color: "#730FB0",
-    alignSelf: "center",
-    marginTop: scale(60),
-    textDecorationLine: "underline",
   },
 });

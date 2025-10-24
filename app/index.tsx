@@ -7,6 +7,8 @@ import Inicio_de_sessao from '@/components/1_Telas_iniciais/2_Inicio_de_sessao';
 import Criar_conta from '@/components/1_Telas_iniciais/3_Criar_conta';
 import Confirmar_telefone from '@/components/1_Telas_iniciais/4_Confirmar_telefone';
 import Finalizar_Cadastro from '@/components/1_Telas_iniciais/5_Finilizar_cadastro';
+import Esqueci_senha from '@/components/1_Telas_iniciais/6_Esqueci_senha';
+import Verificar_usuario from '@/components/1_Telas_iniciais/7_Verificar_usuario';
 
 const Stack = createNativeStackNavigator();
 export default function HomeScreen() {
@@ -17,6 +19,8 @@ export default function HomeScreen() {
       <Stack.Screen name="Criar_conta" component={Criar_conta}/>
       <Stack.Screen name="Confirmar_telefone" component={Confirmar_telefone}/>
       <Stack.Screen name="Finalizar_Cadastro" component={Finalizar_Cadastro}/>
+      <Stack.Screen name="Esqueci_senha" component={Esqueci_senha}/>
+      <Stack.Screen name="Verificar_usuario" component={Verificar_usuario}/>
     </Stack.Navigator>
   )
 }
