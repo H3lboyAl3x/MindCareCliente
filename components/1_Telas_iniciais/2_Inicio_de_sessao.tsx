@@ -18,7 +18,7 @@ export default function Inicio_de_sessao({ navigation }: any) {
 
   const Iniciar_sessao = async () => {
     try {
-      const response1 = await axios.get("https://mindcare-api.onrender.com/MindCare/API/credencia");
+      const response1 = await axios.get("http://192.168.1.220:3000/MindCare/API/credencia");
       const credencias = response1.data;
       const credencia = credencias.find(
           (u: { telefone: string; senha: string }) =>
@@ -31,7 +31,7 @@ export default function Inicio_de_sessao({ navigation }: any) {
         setinformar("Telefone ou senha incorretos.");
       } else if(credencia)
       {
-        const usuario = await axios.get(`https://mindcare-api.onrender.com/MindCare/API/usuario/${credencia.id}`);
+        const usuario = await axios.get(`http://mindcare-api.onrender.com/MindCare/API/usuario/${credencia.id}`);
       }
 
       

@@ -25,7 +25,7 @@ export default function Finalizar_Cadastro({ navigation, route }: any){
                 setinformar("As senhas sao diferentes!")
             }else if (senha === confirmar_senha) {
 
-                const response1 = await axios.get("https://mindcare-api.onrender.com/MindCare/API/credencia");
+                const response1 = await axios.get("http://192.168.1.220:3000/MindCare/API/credencia");
                 const credencias = response1.data;
                 const credencia = credencias.find(
                     (u: { telefone: string}) =>
@@ -34,13 +34,13 @@ export default function Finalizar_Cadastro({ navigation, route }: any){
 
                 if (!credencia)
                 {
-                    const novo_usuario = await axios.post("https://mindcare-api.onrender.com/MindCare/API/usuario", {
+                    const novo_usuario = await axios.post("http://192.168.1.220:3000/MindCare/API/usuario", {
                         nome: nome_completo,
                         data_de_nascimento,
                         genero,
                         estado: true
                     });
-                    await axios.post("https://mindcare-api.onrender.com/MindCare/API/credencia", {
+                    await axios.post("http://192.168.1.220:3000/MindCare/API/credencia", {
                         id: novo_usuario.data.id,
                         telefone: telefone,
                         senha

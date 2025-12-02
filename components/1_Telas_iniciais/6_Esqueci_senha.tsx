@@ -13,7 +13,7 @@ export default function Esqueci_senha({ navigation }: any) {
 
   const Iniciar_sessao = async () => {
     try {
-      const response1 = await axios.get("https://mindcare-api.onrender.com/MindCare/API/credencia");
+      const response1 = await axios.get("http://192.168.1.220:3000/MindCare/API/credencia");
       const credencias = response1.data;
       const credencia = credencias.find(
           (u: { telefone: string; senha: string }) =>
@@ -36,9 +36,9 @@ export default function Esqueci_senha({ navigation }: any) {
       } else if (!credencia) {
         setinformar("Nenhum usuario resistrado com esse Telefone.");
       } else if(credencia){
-        const usuario = await axios.get(`https://mindcare-api.onrender.com/MindCare/API/usuario/${credencia.id}`);
+        const usuario = await axios.get(`http://192.168.1.220:3000/MindCare/API/usuario/${credencia.id}`);
         const telefone_completo = `+244${telefone}`
-        await axios.post(`https://mindcare-api.onrender.com/MindCare/API/enviar-sms`, {
+        await axios.post(`http://192.168.1.220:3000/MindCare/API/enviar-sms`, {
             nome: usuario.data.nome,
             telefone: telefone_completo,
             codigo,

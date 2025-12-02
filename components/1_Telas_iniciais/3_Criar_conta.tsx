@@ -37,7 +37,7 @@ export default function Criar_conta({ navigation }: any) {
 
     try {
       const telefone_completo = `+244${telefone}`
-      await axios.post(`https://mindcare-api.onrender.com/MindCare/API/enviar-sms`, {
+      await axios.post(`http://192.168.1.220:3000/MindCare/API/enviar-sms`, {
         nome: primeiro_nome,
         telefone: telefone_completo,
         codigo,
